@@ -1,0 +1,3 @@
+Hola profe que tal
+Aqui le adjunto el login con su base de datos correspondiente
+para poder ingresar al login utilice usuario: Administrador y contraseña:manolo
