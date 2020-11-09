@@ -8,7 +8,7 @@
   require 'database.php';
 
   if(count($_POST)>0) {
-    $con = mysqli_connect('localhost','pharmave_notas','DS2020.PP2','pharmave_notas') or die('Unable To connect');
+    $con = mysqli_connect('localhost','root','','pharmavet') or die('Unable To connect');
    $result = mysqli_query($con,"SELECT * FROM usuarios WHERE nombreUsu='" . $_POST["usuario"] . "' and claveUsu = '". $_POST["password"]."'");
    $row  = mysqli_fetch_array($result);
    if(is_array($row)) {

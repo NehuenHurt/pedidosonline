@@ -1,4 +1,5 @@
-<?php
+
+    <?php
   session_start();
 
   require 'database.php';
@@ -52,6 +53,7 @@
 	<script src="lib/jquery.js"></script>
 	<script src="busqueda.js"></script>
 	<script src=" https://code.jquery.com/jquery-3.3.1.min.js" ></script>
+	<script src="buscadorproductos.js"></script>
 </head>
 <body>
 	<!-- Notifications area -->
@@ -216,7 +218,7 @@
 							<div class="navLateral-body-cl">
 								<i class="zmdi zmdi-washing-machine"></i>
 							</div>
-						
+							
 							<div class="navLateral-body-cr hide-on-tablet">
 								ESTADO DE PEDIDOS
 							</div>
@@ -245,32 +247,330 @@
 			
 			
 			
-				<div class="mdl-grid">
-					<div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--8-col-desktop mdl-cell--2-offset-desktop">
-						<div class="full-width panel mdl-shadow--2dp">
-							<div class="full-width panel-tittle bg-success text-center tittles">
-								Lista de Clientes
-							</div>
-							<div class="full-width panel-content">
-								<form action="" method="post">
-									<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-									
-											<i class="zmdi zmdi-search"></i>
-										</label>
-										<div class="mdl-textfield__expandable-holder">
-										
-										<div class="formulario">
+				  
+ 
+
+								
 										
 											
-		<label for="caja_busqueda"></label>
 		
-		<input type="text" name="caja_busqueda" id="caja_busqueda" placeholder="Busque a un cliente"></input>
-		<div id="datos"  ></div>
+
+<?php
+  
+
+  //$servername = "localhost";
+    //$username = "pharmave_not";
+  	//$password = "DS2020.PP2";
+	  //$dbname = "pharmave_notas";
+	  $servername = 'localhost';
+	  $username = 'root';
+	  $password = '';
+	$dbname = 'pharmavet';
+
+	$conn = new mysqli($servername, $username, $password, $database);
+      if($conn->connect_error){
+        die("Conexión fallida: ".$conn->connect_error);
+      }
+
+    
+      $id = $_GET['id'];
+	$query = "SELECT * FROM productos";
+	$query1 = "SELECT * FROM clientes WHERE codigoCli =".$id;
+	
+
+
+	$resultado = $conn->query($query);
+	
+	$salida = "";
+	
+    if ($resultado->num_rows>0) {
+		$salida.="
+	
+                          
+							
+                            
+							
+						</tr>";
 		
-	</div>
-				</div>
-			</div>
-		</div>
-	</section>
+	
+		
+		
+
+    	while ($fila = $resultado->FETCH_ASSOC()) {
+			
+			$salida.=
+			'
+			
+					
+                        
+						
+						
+						
+						
+						
+						'
+						
+						
+						
+    					;
+
+    	}
+    	$salida.="</tbody></table>";
+    }else{
+		$salida.="NO SE ENCONTRARON DATOS";
+
+		
+	}
+	
+
+
+	echo $salida;
+
+	?>
+	<?php
+
+require_once 'database.php';
+if(isset($_POST['agregar']))
+{
+    if(isset($_SESSION['add_carro']))
+    {
+        $item_array_id_cart = array_column($_SESSION['add_carro'],'item_id');
+        if(!in_array($_GET['id'],$item_array_id_cart))
+        {
+
+            $count= count($_SESSION['add_carro']);
+            $item_array = array(
+                'item_id'        => $_GET['id'],
+                'item_nombre'    => $_POST['hidden_nombre'],
+                'item_precio'    => $_POST['hidden_precio'],
+                'item_cantidad'  => $_POST['cantidad'],
+            );
+
+            $_SESSION['add_carro'][$count]=$item_array;
+        }
+        else
+            {
+              echo '<script>alert("El Producto ya existe!");</script>';
+            }
+    }
+    else
+        {
+            $item_array = array(
+                'item_id'        => $_GET['id'],
+                'item_nombre'    => $_POST['hidden_nombre'],
+                'item_precio'    => $_POST['hidden_precio'],
+                'item_cantidad'  => $_POST['cantidad'],
+            );
+
+            $_SESSION['add_carro'][0] = $item_array;
+        }
+}
+if(isset($_GET['action']))
+{
+    if($_GET['action']=='delete')
+    {
+        foreach ($_SESSION['add_carro'] AS $key => $value)
+        {
+            if($value['item_id'] == $_GET['id'])
+            {
+                unset($_SESSION['add_carro'][$key]);
+                echo '<script>alert("El Producto Fue Eliminado!");</script>';
+                echo '<script>window.location="cargarpedido.php";</script>';
+            }
+
+        }
+
+    }
+
+}
+?>
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/carrs.css">
+    <title>Carrito</title>
+</head>
+<body>
+
+
+    
+    <?php
+$sql="SELECT * FROM productos";
+$resul= mysqli_query($conn,$sql);
+$query1 = "SELECT * FROM productos";
+
+
+
+    $resultado1 = $conn->query($query1);
+	$salida = "";
+    if ($resultado1->num_rows>0) {
+		 ?>
+
+<label for="caja_busqueda1"></label>
+		
+		<input type="text" name="caja_busqueda1" id="caja_busqueda1" placeholder="Busque a un cliente"></input>
+		<div id="datos1"  >
+	
+		<table class='mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width table-responsive'>
+					<thead>
+						<tr>
+							<th >Id</th>
+							<th>Descripcion</th>
+							<th>Precio</th>
+							<th>Agregar</th>
+                           
+							
+                            
+							
+						</tr>
+						<?php
+						while ($fila = $resultado1->fetch_assoc()) {
+			
+							 ?>
+						
+							
+							
+							<tr >
+							<form method="post" action="cargarpedido.php?action=add&id=<?php echo $fila['codigoPro']; ?>">
+							
+							
+							<td><?php echo $fila['codigoPro'];?></td>
+							<td><?php echo $fila['descripcionPro'];?></td>
+							<td><?php echo $fila['precioPro'];?></td>
+						<td><input type="text" name="cantidad" value="1" /><input type="submit" name="agregar" style="margin-left:5px;" class="btn btn-success" value="Agregar" /></td>
+						<input type="hidden" name="hidden_nombre" value="<?php echo $fila['descripcionPro'];?>"/>
+						<input type="hidden" name="hidden_precio" value="<?php echo $fila['precioPro'];?>"/>
+										
+								
+										
+										
+										
+										
+										
+										</tr>
+										
+										
+										
+										
+				
+						
+				
+						</tbody>
+						</form>
+						
+						
+				   </div>
+					
+					</div>
+				
+				<?php
+					echo $salida;
+					?>
+								
+							
+					
+				
+				
+				
+				
+						
+				 
+						
+				 
+					
+					<?php
+					}
+				}
+					?>
+					</table>
+		
+	
+		
+		
+
+    	
+					<div id="datos1"  >
+	<div style="clear:both"></div>
+    <br />
+    <h3>Detalle de la Orden</h3>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <tr>
+                <th width="40%">Item Nombre</th>
+                <th width="10%">Cantidad</th>
+                <th width="20%">Precio</th>
+                <th width="15%">Total</th>
+                <th width="5%">Action</th>
+            </tr>
+            <?php
+            if(!empty($_SESSION["add_carro"]))
+            {
+                $total = 0;
+                foreach($_SESSION["add_carro"] as $keys => $values)
+                {
+                    ?>
+                    <tr>
+                        <td><?php echo $values["item_nombre"]; ?></td>
+                        <td><?php echo $values["item_precio"]; ?></td>
+                        <td>$ <?php echo $values["item_cantidad"]; ?></td>
+                        <td>$ <?php echo number_format($values["item_cantidad"] * $values["item_precio"], 2);?></td>
+                        <td><a href="cargarpedido.php?action=delete&id=<?php echo $values["item_id"] ; ?>"><span class="text-danger">Remove</span></a></td>
+                    </tr>
+                    <?php
+                    $total = $total + ($values["item_cantidad"] * $values["item_precio"]);
+                }
+                ?>
+                <tr>
+                    <td colspan="3" align="right">Total</td>
+                    <td align="right">$ <?php echo number_format($total, 2); ?></td>
+                    <td></td>
+                </tr>
+                <?php
+            }else{
+                ?>
+                <tr>
+                    <td colspan="4" style="color: red" align="center"><strong>No hay Producto Agregado!</strong></td>
+                </tr>
+                <?php
+            }
+            ?>
+        </table>
+    </div>
+</div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
+
+
+
+	
+	
+
+	
+	
+		
+		
+	
+	
+
+	
+  
+
+
+
+	
+
+
+
+
+
+

@@ -194,7 +194,7 @@
 								<i class="zmdi zmdi-face"></i>
 							</div>
 							<div class="navLateral-body-cr hide-on-tablet">
-								CLIENTES
+								Realizar Pedido
 							</div>
 							<span class="zmdi zmdi-chevron-left"></span>
 						</a>
@@ -208,7 +208,7 @@
 										<i class="zmdi zmdi-accounts"></i>
 									</div>
 									<div class="navLateral-body-cr hide-on-tablet">
-										CLIENTES
+										Pedidos
 									</div>
 								</a>
 							</li>
@@ -220,17 +220,7 @@
 							<div class="navLateral-body-cl">
 								<i class="zmdi zmdi-washing-machine"></i>
 							</div>
-							<div class="navLateral-body-cr hide-on-tablet">
-								PRODUCTOS
-							</div>
-						</a>
-					</li>
-					<li class="full-width divider-menu-h"></li>
-					<li class="full-width">
-						<a href="sales.html" class="full-width">
-							<div class="navLateral-body-cl">
-								<i class="zmdi zmdi-shopping-cart"></i>
-							</div>
+							
 							<div class="navLateral-body-cr hide-on-tablet">
 								ESTADO DE PEDIDOS
 							</div>

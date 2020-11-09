@@ -1,9 +1,9 @@
 <?php
 
 $server = 'localhost';
-$username = 'pharmave_notas';
-$password = 'DS2020.PP2';
-$database = 'pharmave_notas';
+$username = 'root';
+$password = '';
+$database = 'pharmavet';
 
 try {
   $conn = new PDO("mysql:host=$server;dbname=$database;", $username, $password);

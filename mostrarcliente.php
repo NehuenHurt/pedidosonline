@@ -216,7 +216,7 @@
 							<div class="navLateral-body-cl">
 								<i class="zmdi zmdi-washing-machine"></i>
 							</div>
-						
+							
 							<div class="navLateral-body-cr hide-on-tablet">
 								ESTADO DE PEDIDOS
 							</div>
@@ -249,28 +249,110 @@
 					<div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--8-col-desktop mdl-cell--2-offset-desktop">
 						<div class="full-width panel mdl-shadow--2dp">
 							<div class="full-width panel-tittle bg-success text-center tittles">
-								Lista de Clientes
+								Cliente Seleccionado
 							</div>
 							<div class="full-width panel-content">
-								<form action="" method="post">
-									<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-									
-											<i class="zmdi zmdi-search"></i>
-										</label>
-										<div class="mdl-textfield__expandable-holder">
-										
-										<div class="formulario">
+								
 										
 											
-		<label for="caja_busqueda"></label>
 		
-		<input type="text" name="caja_busqueda" id="caja_busqueda" placeholder="Busque a un cliente"></input>
-		<div id="datos"  ></div>
+
+<?php
+  
+
+  //$servername = "localhost";
+    //$username = "pharmave_not";
+  	//$password = "DS2020.PP2";
+	  //$dbname = "pharmave_notas";
+	  $servername = 'localhost';
+	  $username = 'root';
+	  $password = '';
+	  $dbname = 'pharmavet';
+
+	$conn = new mysqli($servername, $username, $password, $dbname);
+      if($conn->connect_error){
+        die("Conexión fallida: ".$conn->connect_error);
+      }
+
+    
+      $id = $_GET['id'];
+    $query = "SELECT * FROM clientes WHERE codigoCli =".$id;
+
+
+    $resultado = $conn->query($query);
+    $salida = "";
+    if ($resultado->num_rows>0) {
+		$salida.="
+		<table class='mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width table-responsive'>
+					<thead>
+						<tr>
+							<th class='mdl-data-table__cell--non-numeric'>Id</th>
+							<th>Nombre</th>
+                            <th>Vendedor</th>
+                            <th>Direccion</th>
+                            <th>Localidad</th>
+                            <th>Provincia</th>
+							<th>Telefono</th>
+							
+                            
+							
+						</tr>";
 		
+	
+		
+		
+
+    	while ($fila = $resultado->fetch_assoc()) {
+			
+			$salida.=
+			'
+			<tr >
+			
+			
+						<td>' .$fila['codigoCli'].'</td></a>
+                        <td>' .$fila['nombreCli'].'</td></a>
+                        <td>' .$fila['vendedorCli'].'</td></a>
+                        <td>' .$fila['direccionCli'].'</td></a>
+                        <td>' .$fila['localidadCli'].'</td></a>
+                        <td>' .$fila['provinciaCli'].'</td></a>
+						<td>' .$fila['telefonoCli'].'</td></a>
+						
+						
+						
+						
+						
+						'
+						
+						
+    					;
+
+    	}
+    	$salida.="</tbody></table>";
+    }else{
+		$salida.="NO SE ENCONTRARON DATOS";
+
+		
+	}
+	
+
+
+	echo $salida;
+	
+		
+		
+	
+	
+?>
+<div class="container-fluid" id="main-content">
+        <div class="container">
+            <div class="row">
+			
+       
+	<div class="container-fluid">
+  <div class="row text-white text-center">
+    <div class="col-2 bg-dark border"> <a href="cargarpedido.php?id=<?php echo $id;?>">Cargar Productos</a><br></div>
+    <div class="col-10 bg-dark border"><a href="clientes.php">Volver A elegir otro cliente</a></div>
 	</div>
-				</div>
-			</div>
-		</div>
-	</section>
-</body>
-</html>
+        </div>
+	</div>
+ 
